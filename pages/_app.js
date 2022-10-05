@@ -8,9 +8,9 @@ function MyApp({ Component, pageProps }) {
         <p className='text-4xl font-bold'>FREEOWN</p>
         <div className='flex mt-4'>
           <Link href="/">
-             <a className='mr-4 text-pink-500'>
-               HOME
-             </a> 
+            <a className='mr-4 text-pink-500'>
+              HOME
+            </a>
           </Link>
           <Link href="/create-item">
             <a className='mr-6 text-pink-500'>

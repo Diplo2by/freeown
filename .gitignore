@@ -58,3 +58,5 @@ typechain-types
 cache
 artifacts
 
+#Config files
+config.js
