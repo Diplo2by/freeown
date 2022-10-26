@@ -4,7 +4,22 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from "next/router";
 import Web3Modal from 'web3modal'
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001')
+import{projectId,projectSecret} from '../config.js'
+
+const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+const client = ipfsHttpClient({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+})
+
+
+
 
 import {
     nftaddress, nftmarketaddress
@@ -21,15 +36,16 @@ export default function CreateItem() {
     const router = useRouter()
 
     async function onChange(e) {
+        console.log('Changed lol')
         const file = e.target.files[0]
         try {
             const added = await client.add(
                 file,
                 {
-                    prgress: (prog) => console.log(`received:${prog}`)
+                    progress: (prog) => console.log(`received:${prog}`)
                 }
             )
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            const url = `https://freeown.infura-ipfs.io/ipfs/${added.path}`
             setFileUrl(url)
         } catch (e) {
             console.log(e)
@@ -45,7 +61,7 @@ export default function CreateItem() {
 
         try {
             const added = await client.add(data)
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            const url = `https://freeown.infura-ipfs.io/ipfs/${added.path}`
             createSale(url)
         } catch (error) {
             console.log('There was an Error uploading file: ', error)
@@ -53,7 +69,7 @@ export default function CreateItem() {
 
     }
 
-    async function createSale() {
+    async function createSale(url) {
         const web3modal = new Web3Modal()
         const conn = await web3modal.connect()
         const provider = new ethers.providers.Web3Provider(conn)

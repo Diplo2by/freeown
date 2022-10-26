@@ -22,7 +22,7 @@ export default function Myapp({ Component, pageProps }) {
         const data = await marketContract.fetchMarketItems()
 
         const items = await Promise.all(data.map(async i => {
-            const tokenUri = await tokenContract.tokenUri(i.tokenId)
+            const tokenUri = await tokenContract.tokenURI(i.tokenId)
             const metadata = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(String(i.price), 'ether')
             let item = {
@@ -72,7 +72,7 @@ export default function Myapp({ Component, pageProps }) {
                     {
                         nfts.map((nft, i) => (
                             <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                <img src='{nft.image}' />
+                                <img src={nft.image} />
                                 <div className='p-4'>
                                     <p style={{ height: '64px' }} className="text-2xl font-semibold">
                                         {nft.name}
